@@ -4,6 +4,7 @@
 #root {
     padding: 0 !important;
     font-family: "Montserrat", serif;
+    margin: 0 !important;
 }
 
 @layer base {
@@ -15,5 +16,10 @@
             #001733ff,
             #000c1aff
         );
+    }
+
+    .clicked {
+        @apply bg-slate-800! border-blue-200! text-blue-200!;
+        /* box-shadow: inset 0px 0px 1px 3px rgba(0, 0, 0, 1) !important; */
     }
 }

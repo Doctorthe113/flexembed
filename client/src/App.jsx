@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
     const [file, setFiles] = useState(null);
-    const [uploadStatus, setUploadStatus] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState(false); // todo
     const [isVideo, setIsVideo] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(
         "https://flexembed.doctorthe113.com/files/",
@@ -29,7 +29,15 @@ function App() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("submitted");
+        // for the button animation
+        const uploadButton = document.getElementById("upload-button");
+        uploadButton.classList.add("clicked");
+        setTimeout(() => {
+            uploadButton.classList.remove("clicked");
+        }, 200);
+
+        // starts sending the file
+        console.log("submitting");
         const formData = new FormData();
         formData.append("file", file);
 
@@ -60,12 +68,14 @@ function App() {
             </div>
             <div className="grow flex flex-col justify-center">
                 <div className="max-w-[480px] flex flex-col items-center justify-center bg-slate-900 rounded-lg pt-2 border-[1px]">
-                    <p className="my-1">
+                    <p className="m-1">
                         <strong className="text-blue-200">flexEmbed</strong>
                         {" "}
                         is for users to embed large images and videos upto 2GB
                         on discord and other platforms. Due to storage
                         restrictions, the files will be deleted after 7 days.
+                        Consider supporting to change that and help me with
+                        other projects :D
                     </p>
                     <div className="min-h-[300px] bg-slate-950 p-2 w-full rounded-b-lg pb-2 flex flex-col ">
                         <form
@@ -97,7 +107,8 @@ function App() {
 
                             <button
                                 type="submit"
-                                className="w-full bg-slate-900 rounded-md h-7 mt-2 border-[1px] cursor-pointer"
+                                id="upload-button"
+                                className="w-full bg-slate-900 rounded-md h-7 mt-2 border-[1px] cursor-pointer "
                             >
                                 Upload
                             </button>
