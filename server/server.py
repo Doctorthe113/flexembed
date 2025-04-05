@@ -82,6 +82,8 @@ async def serve_file(filePath: str, request: Request) -> StreamingResponse:
     start = 0
     end = fileSize - 1
 
+    # range header to send data in chunks so videos can be played without downloading
+    # the whole file to the client memory.
     if rangeHeader := request.headers.get("Range"):
         start, end = get_byte_range(rangeHeader, fileSize)
         contentLength = end - start + 1

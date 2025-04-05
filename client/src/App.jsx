@@ -1,15 +1,43 @@
+import "./App.css";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import "./App.css";
+import { Button } from "./components/ui/button";
+import { Card } from "./components/ui/card";
+import DarkModeToggle from "./components/ui/darkmode";
+import Preview from "./components/previewComponent";
+import { useTheme } from "./components/theme-provider";
+import { useToast } from "./hooks/use-toast";
+import { Toaster } from "./components/ui/toaster";
+import { ToastAction } from "./components/ui/toast";
 
 function App() {
+    const { theme } = useTheme();
+    const { toast } = useToast();
     const [file, setFiles] = useState(null);
-    const [uploadStatus, setUploadStatus] = useState(false); // todo
     const [isVideo, setIsVideo] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(
         "https://flexembed.doctorthe113.com/files/",
     );
 
+    // copies the link to the clipboard
+    const copyToClipboard = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+            toast({
+                title: "Failed to copy",
+                variant: "destructive",
+                description: "Your link couldn't be copied to the clipboard",
+                action: (
+                    <ToastAction altText="Done">
+                        Okay
+                    </ToastAction>
+                ),
+            });
+        }
+    };
+
+    // processes the video before uploading
     const handleFileChange = (e) => {
         const prevFilename = e.target.files[0].name;
         const rename = uuidv4();
@@ -26,18 +54,11 @@ function App() {
         }
     };
 
+    // uploads the file to the server
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // for the button animation
-        const uploadButton = document.getElementById("upload-button");
-        uploadButton.classList.add("clicked");
-        setTimeout(() => {
-            uploadButton.classList.remove("clicked");
-        }, 200);
-
         // starts sending the file
-        console.log("submitting");
         const formData = new FormData();
         formData.append("file", file);
 
@@ -53,70 +74,93 @@ function App() {
             if (res.status === 200) {
                 const resJson = await res.json();
                 setPreviewUrl(resJson.preview);
+                copyToClipboard(resJson.preview);
+                toast({
+                    title: "Successfully uploaded",
+                    description:
+                        "Your file has been uploaded and link has been copied to the clipboard ",
+                    action: (
+                        <ToastAction altText="Done">
+                            Okay
+                        </ToastAction>
+                    ),
+                });
             }
         } catch (error) {
             console.log(error);
+            toast({
+                title: "Upload Failed",
+                variant: "destructive",
+                description:
+                    "Your file couldn't be uploaded, please try again later",
+                action: (
+                    <ToastAction altText="Done">
+                        Okay
+                    </ToastAction>
+                ),
+            });
         }
     };
 
     return (
-        <main className="h-screen w-screen bg-slate-900 flex justify-center items-center flex-col text-amber-100 bg-grad">
-            <div className="h-9 w-screen max-w-[480px] p-2">
-                <div className="bg-slate-800 text-center rounded-lg text-blue-100 font-bold">
+        <main className="h-screen w-screen font-poppins flex justify-start items-center flex-col bg-bg">
+            <div className="h-14 max-w-[480px] w-full flex justify-between px-2 py-1 bg-main border-2 border-border rounded-b-base shadow-shadow">
+                <h1 className="text-2xl font-bold text-black flex items-center">
                     flexEmbed
-                </div>
+                </h1>
+                <Toaster className="" />
+                <DarkModeToggle />
             </div>
             <div className="grow flex flex-col justify-center">
-                <div className="max-w-[480px] flex flex-col items-center justify-center bg-slate-900 rounded-lg pt-2 border-[1px]">
-                    <p className="m-1">
-                        <strong className="text-blue-200">flexEmbed</strong>
-                        {" "}
+                <Card className="max-w-[480px] flex flex-col items-center justify-center pt-2">
+                    <p className="m-2">
+                        <strong className=" font-montserrat font-bold">
+                            flexEmbed
+                        </strong>{" "}
                         is for users to embed large images and videos upto 2GB
                         on discord and other platforms. Due to storage
                         restrictions, the files will be deleted after 7 days.
                         Consider supporting to change that and help me with
                         other projects :D
                     </p>
-                    <div className="min-h-[300px] bg-slate-950 p-2 w-full rounded-b-lg pb-2 flex flex-col ">
-                        <form
+                    <div className="min-h-[300px] p-2 w-full flex flex-col ">
+                        {
+                            /* <form
                             onSubmit={handleSubmit}
                             className="flex flex-col items-center justify-center grow"
-                        >
-                            {!file
-                                ? (
-                                    <input
-                                        type="file"
-                                        onChange={handleFileChange}
-                                        className="grow cursor-pointer w-full text-center"
-                                    />
-                                )
-                                : (
-                                    isVideo
-                                        ? (
-                                            <video
-                                                src={URL.createObjectURL(file)}
-                                            >
-                                            </video>
-                                        )
-                                        : (
-                                            <img
-                                                src={URL.createObjectURL(file)}
-                                            />
-                                        )
-                                )}
-
-                            <button
-                                type="submit"
+                        > */
+                        }
+                        <Preview
+                            file={file}
+                            isVideo={isVideo}
+                            handleFileChange={handleFileChange}
+                        />
+                        <div className="w-full flex justify-evenly">
+                            <Button
+                                variant="default"
                                 id="upload-button"
-                                className="w-full bg-slate-900 rounded-md h-7 mt-2 border-[1px] cursor-pointer "
+                                className="!bg-purple m-1 grow"
+                                onClick={() => {
+                                    setFiles(null);
+                                    setIsVideo(false);
+                                }}
                             >
-                                Upload
-                            </button>
-                        </form>
-                        <p className="w-full text-left italic mt-2">
+                                <span>Clear</span>
+                            </Button>
+                            <Button
+                                variant="default"
+                                id="upload-button"
+                                className="!bg-purple m-1 grow"
+                                onClick={handleSubmit}
+                            >
+                                <span>Upload</span>
+                            </Button>
+                        </div>
+                        {/* </form> */}
+                        <p className="w-full text-left text-white mt-2 bg-secondary-black rounded-base border-2 border-border px-2">
                             Preview link:{" "}
                             <a
-                                className="text-blue-100"
+                                className="text-purple italic"
                                 href={previewUrl}
                                 target="_blank"
                             >
@@ -124,7 +168,7 @@ function App() {
                             </a>
                         </p>
                     </div>
-                </div>
+                </Card>
             </div>
         </main>
     );
