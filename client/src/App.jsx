@@ -7,7 +7,6 @@ import DarkModeToggle from "./components/ui/darkmode";
 import Preview from "./components/previewComponent";
 import { useTheme } from "./components/theme-provider";
 import { useToast } from "./hooks/use-toast";
-import { Toaster } from "./components/ui/toaster";
 import { ToastAction } from "./components/ui/toast";
 
 function App() {
@@ -108,7 +107,6 @@ function App() {
                 <h1 className="text-2xl font-bold text-black flex items-center">
                     flexEmbed
                 </h1>
-                <Toaster className="" />
                 <DarkModeToggle />
             </div>
             <div className="grow flex flex-col justify-center">
