@@ -27,7 +27,7 @@ export default function Preview({ file, isVideo, handleFileChange }) {
             <video
                 src={URL.createObjectURL(file)}
                 controls
-                className="w-full h-full rounded-base border-border border-2"
+                className="max-h-[240px] bg-bw object-contain rounded-base border-border border-2"
                 htmlFor="file-input"
             />
         );
@@ -36,7 +36,7 @@ export default function Preview({ file, isVideo, handleFileChange }) {
             <img
                 src={URL.createObjectURL(file)}
                 alt="preview"
-                className="w-full h-full rounded-base border-border border-2"
+                className="max-h-[240px] bg-bw object-contain rounded-base border-border border-2"
                 htmlFor="file-input"
             />
         );
