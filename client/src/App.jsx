@@ -114,7 +114,7 @@ function App() {
             <div className="grow flex flex-col justify-center">
                 <Card className="max-w-[480px] flex flex-col items-center justify-center pt-2">
                     <p className="m-2">
-                        <strong className=" font-montserrat font-bold">
+                        <strong className=" font-poppins font-bold">
                             flexEmbed
                         </strong>{" "}
                         is for users to embed large images and videos upto 2GB
