@@ -12,7 +12,7 @@ export default function DarkModeToggle() {
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-            {theme === "dark" ? <Sun /> : <Moon />}
+            {theme === "dark" ? <Moon /> : <Sun />}
         </Button>
     );
 }
