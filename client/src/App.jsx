@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "./components/ui/button";
@@ -102,7 +101,7 @@ function App() {
     };
 
     return (
-        <main className="h-screen w-screen font-poppins flex justify-start items-center flex-col bg-bg">
+        <main className="h-screen w-screen flex justify-start items-center flex-col bg-bg">
             <div className="h-14 max-w-[480px] w-full flex justify-between px-2 py-1 bg-main border-2 border-border rounded-b-base shadow-shadow">
                 <h1 className="text-2xl font-bold text-black flex items-center">
                     flexEmbed
@@ -112,7 +111,7 @@ function App() {
             <div className="grow flex flex-col justify-center">
                 <Card className="max-w-[480px] flex flex-col items-center justify-center pt-2">
                     <p className="m-2">
-                        <strong className=" font-poppins font-bold">
+                        <strong className="font-bold">
                             flexEmbed
                         </strong>{" "}
                         is for users to embed large images and videos upto 2GB
