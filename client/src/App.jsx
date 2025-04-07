@@ -4,12 +4,10 @@ import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import DarkModeToggle from "./components/ui/darkmode";
 import Preview from "./components/previewComponent";
-import { useTheme } from "./components/theme-provider";
 import { useToast } from "./hooks/use-toast";
 import { ToastAction } from "./components/ui/toast";
 
 function App() {
-    const { theme } = useTheme();
     const { toast } = useToast();
     const [file, setFiles] = useState(null);
     const [isVideo, setIsVideo] = useState(false);

@@ -8,7 +8,7 @@ export default function DarkModeToggle() {
     return (
         <Button
             variant="default"
-            className={theme === "dark" ? "bg-green" : "bg-yellow"}
+            className={theme === "dark" ? "bg-purple" : "bg-yellow"}
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
