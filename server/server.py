@@ -26,6 +26,8 @@ async def root() -> RedirectResponse:
 
 # * File upload side ==================================================================
 async def remove_old_files() -> None:
+    if not os.path.exists("media"):
+        os.makedirs("media")
     files = os.listdir("media")
     threeDayOld = int(time.time() - 7 * 24 * 3600)
 
