@@ -2,3 +2,5 @@ server/.venv
 server/__pycache__/*
 server/.venv/*
 server/media/*
+client/node_modules/*
+*.log
